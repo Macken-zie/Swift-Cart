@@ -5,7 +5,7 @@ let currentBarcode = '';
 const productMap = {
     '4806518335346': { name: 'Belo', price: 600 },
     '4800010075069': { name: 'Cream O', price: 10 },
-    '4005900437907': { name: 'Nivea Pearl Radiant', price: 600 },
+    
     // add more mappings here
 };
 
@@ -37,7 +37,29 @@ function hideLogo() {
 }
 
 // Function to start barcode scanner
-function startBarcodeScanner() {
+function startBarcodeScanner() {}
+const constraints = {
+    video: {
+        facingMode: { exact: "environment" }, // Default to back camera
+        width: { ideal: 1920 }, // Ideal width
+        height: { ideal: 1080 } // Ideal height
+    }
+};
+
+// Check if user wants to use front camera
+const useFrontCamera = document.getElementById('use-front-camera').checked;
+if (useFrontCamera) {
+    constraints.video.facingMode = { exact: "user" }; // Use front camera
+}
+
+// Check if user wants to use wide screen
+const useWideScreen = document.getElementById('use-wide-screen').checked;
+if (useWideScreen) {
+    constraints.video.width = { ideal: 1920 }; // Use wide screen width
+    constraints.video.height = { ideal: 1080 }; // Use wide screen height
+}
+{
+    
     Quagga.init({
         inputStream: { 
             name: "Live", 
@@ -57,6 +79,7 @@ function startBarcodeScanner() {
             return; 
         }
         Quagga.start();
+    
     });
 
     // On barcode detected
